@@ -21,7 +21,7 @@ jobs:
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@18.142.44.15 << 'EOF'
             cd /var/www/html/Weather-Map
-            git pull origin main
+            sudo git pull origin main
             sudo systemctl restart nginx  
           EOF
         env:
