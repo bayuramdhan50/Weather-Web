@@ -20,7 +20,7 @@ jobs:
       - name: Deploy to ECS
         run: |
           ssh -o StrictHostKeyChecking=no ubuntu@18.142.44.15 << 'EOF'
-            cd /var/www/html/Weather-Map
+            cd /var/www/html/Weather-Web
             sudo git pull origin main
             sudo systemctl restart nginx  
           EOF
