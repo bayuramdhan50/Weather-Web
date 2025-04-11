@@ -1,0 +1,28 @@
+name: Deploy to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout 🛎️
+        uses: actions/checkout@v3
+
+      - name: Setup SSH
+        uses: webfactory/ssh-agent@v0.5.4
+        with:
+          ssh-private-key: ${{ secrets.SSH_PRIVATE_KEY }}
+      
+      - name: Deploy to ECS
+        run: |
+          ssh -o StrictHostKeyChecking=no root@18.142.44.15 << 'EOF'
+            cd /var/www/html/Weather-Map
+            git pull origin main
+            sudo systemctl restart nginx  
+          EOF
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
